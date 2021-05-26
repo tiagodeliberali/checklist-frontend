@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
-import DoneIcon from '@material-ui/icons/Done';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Typography from '@material-ui/core/Typography';
 
 const axios = require('axios');
@@ -22,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 10,
     }
 }));
+
+const formatGrade = (grade) => {
+    return Math.round((grade + Number.EPSILON) * 10 * 100) / 100;
+}
 
 function GradeDetail(props) {
     const classes = useStyles();
@@ -42,7 +47,7 @@ function GradeDetail(props) {
                     {name}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    Nota: {data.grade}
+                    Nota: {formatGrade(data.grade)}
                 </Typography>
             </Grid>
             {data.themesInfo.map(theme => (
@@ -51,7 +56,7 @@ function GradeDetail(props) {
                         {theme.name}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        Nota: {theme.grade}
+                        Nota: {formatGrade(theme.grade)}
                         <br />Peso: {theme.weight}
                     </Typography>
 
@@ -69,6 +74,18 @@ function TopicInfo(props) {
     const topic = props.data;
     const { serviceName, reload } = props;
 
+    const addTopic = () => {
+        const url = 'http://localhost:8080/service/' + serviceName + '/' + topic.id;
+
+        axios.put(url)
+            .then(function () {
+                reload();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     return (
         <Card className={classes.topicCard}>
             <CardContent>
@@ -76,8 +93,9 @@ function TopicInfo(props) {
                     {topic.name}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    Nota: {topic.grade}
+                    Nota: {formatGrade(topic.grade)}
                     <br />Peso: {topic.weight}
+                    {topic.missing && <div><Link href="#" onClick={addTopic}>Adicionar</Link></div>}
                 </Typography>
                 <RequirementInfo
                     missed={topic.missedRequirements}
@@ -123,6 +141,7 @@ function RequirementInfo(props) {
     return (
         <Typography variant="body2" component="p">
             <div>
+                <br />
                 {missed.map(req => (
                     <Chip
                         label={req.name}
@@ -131,14 +150,14 @@ function RequirementInfo(props) {
                 ))}
             </div>
             <Typography className={classes.requirementText} variant="body2" component="p">
-                Requisitos que não estão faltando:
+                Possíveis pendências:
             </Typography>
             <div>
                 {unused.map(req => (
                     <Chip
                         label={req.name}
                         onDelete={() => addRequirement(req.id)}
-                        deleteIcon={<DoneIcon />}
+                        deleteIcon={<AddCircleOutlineIcon />}
                     />
                 ))}
             </div>
