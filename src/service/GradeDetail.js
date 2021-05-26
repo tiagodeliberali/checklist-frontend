@@ -7,8 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Chip from '@material-ui/core/Chip';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Typography from '@material-ui/core/Typography';
-
-const axios = require('axios');
+import { addTopic, addRequirement, removeRequirement } from '../api/ChecklistService';
 
 const useStyles = makeStyles((theme) => ({
     searchGrid: {
@@ -74,16 +73,9 @@ function TopicInfo(props) {
     const topic = props.data;
     const { serviceName, reload } = props;
 
-    const addTopic = () => {
-        const url = 'http://localhost:8080/service/' + serviceName + '/' + topic.id;
-
-        axios.put(url)
-            .then(function () {
-                reload();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+    const addTopicAndReload = () => {
+        addTopic(serviceName, topic.id)
+            .then(() => reload());
     }
 
     return (
@@ -95,7 +87,7 @@ function TopicInfo(props) {
                 <Typography className={classes.pos} color="textSecondary">
                     Nota: {formatGrade(topic.grade)}
                     <br />Peso: {topic.weight}
-                    {topic.missing && <div><Link href="#" onClick={addTopic}>Adicionar</Link></div>}
+                    {topic.missing && <div><Link onClick={addTopicAndReload}>Adicionar</Link></div>}
                 </Typography>
                 <RequirementInfo
                     missed={topic.missedRequirements}
@@ -117,25 +109,14 @@ function RequirementInfo(props) {
         topicId,
         reload } = props;
 
-    const addRequirement = (requirementId) => {
-        const url = 'http://localhost:8080/service/' + serviceName + '/' + topicId + '/' + requirementId;
-
-        axios.put(url)
-            .then(function (response) {
-                reload();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+    const addRequirementAndReload = (requirementId) => {
+        addRequirement(serviceName, topicId, requirementId)
+            .then(() => reload());
     }
 
-    const removeRequirement = (requirementId) => {
-        const url = 'http://localhost:8080/service/' + serviceName + '/' + topicId + '/' + requirementId;
-
-        axios.delete(url)
-            .then(function (response) {
-                reload();
-            });
+    const removeRequirementAndReload = (requirementId) => {
+        removeRequirement(serviceName, topicId, requirementId)
+            .then(() => reload());
     }
 
     return (
@@ -145,7 +126,7 @@ function RequirementInfo(props) {
                 {missed.map(req => (
                     <Chip
                         label={req.name}
-                        onDelete={() => removeRequirement(req.id)}
+                        onDelete={() => removeRequirementAndReload(req.id)}
                     />
                 ))}
             </div>
@@ -156,7 +137,7 @@ function RequirementInfo(props) {
                 {unused.map(req => (
                     <Chip
                         label={req.name}
-                        onDelete={() => addRequirement(req.id)}
+                        onDelete={() => addRequirementAndReload(req.id)}
                         deleteIcon={<AddCircleOutlineIcon />}
                     />
                 ))}

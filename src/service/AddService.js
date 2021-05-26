@@ -5,8 +5,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
-
-const axios = require('axios');
+import { createService } from '../api/ChecklistService';
 
 const useStyles = makeStyles((theme) => ({
     dialog: {
@@ -23,22 +22,15 @@ function AddService(props) {
     const classes = useStyles();
     const [repo, setRepo] = useState("");
 
-    const handleClose = () => {
-        onClose();
-    };
+    const handleClose = () => onClose();
 
     const handleCreate = () => {
-        const url = 'http://localhost:8080/service/' + repo;
-
-        axios.put(url)
-        .then(function () {
-            reload();
-            onClose();
-        })
-        .catch(function (error) {
-            console.log(error);
-            onClose();
-        })
+        createService(repo)
+            .then(() => {
+                reload();
+                onClose();
+            })
+            .catch(() => onClose());
     };
 
     return (

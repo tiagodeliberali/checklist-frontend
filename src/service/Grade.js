@@ -3,8 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import GradeDetail from './GradeDetail';
 import { useParams } from "react-router-dom";
-
-const axios = require('axios');
+import { getGrade } from '../api/ChecklistService';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -19,17 +18,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const getGrade = (service, checklist, setServiceGrade) => {
-    const url = 'http://localhost:8080/grade/' + checklist + '/' + service;
-
-    axios.get(url)
-        .then(function (response) {
-            console.log(response);
-            setServiceGrade(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+const handleGetGrade = (service, checklist, setServiceGrade) => {
+    getGrade(service, checklist)
+        .then((response) => setServiceGrade(response.data));
 }
 
 function Grade() {
@@ -40,7 +31,7 @@ function Grade() {
     const classes = useStyles();
 
     const reload = () => {
-        getGrade(serviceName, "checklist", setServiceGrade)
+        handleGetGrade(serviceName, "checklist", setServiceGrade)
     }
 
     useEffect(() => {

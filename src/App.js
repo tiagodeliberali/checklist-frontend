@@ -99,7 +99,9 @@ function App() {
                 <ListItemIcon><LibraryAddIcon /></ListItemIcon>
                 <ListItemText primary="Criar serviço" />
               </ListItem>
+
               <Divider />
+
               {serviceGrade.map(service => (
                 <ListItem button component="a" href={"/service/" + service} key={service}>
                   <ListItemIcon><BookmarksIcon /></ListItemIcon>
