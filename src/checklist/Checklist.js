@@ -1,5 +1,5 @@
 function CheckList() {
-    return <h2>CheckList</h2>;
+  return <h2>CheckList</h2>;
 }
 
 export default CheckList;
