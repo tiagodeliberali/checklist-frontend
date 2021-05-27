@@ -24,12 +24,14 @@ const handleGetGrade = (service, checklist, setServiceGrade) => {
   );
 };
 
-function Grade() {
+function Grade(props) {
   const [serviceGrade, setServiceGrade] = useState({});
-
-  let { serviceName } = useParams();
-
   const classes = useStyles();
+
+  const { serviceName } = useParams();
+  const { setSelectedService } = props;
+
+  setSelectedService(serviceName);
 
   const reload = () => {
     handleGetGrade(serviceName, "checklist", setServiceGrade);

@@ -4,7 +4,7 @@ import "./App.css";
 import Checklist from "./checklist/Checklist";
 import Grade from "./service/Grade";
 import AddService from "./service/AddService";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, useParams } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -12,8 +12,8 @@ import Divider from "@material-ui/core/Divider";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import BookmarksIcon from "@material-ui/icons/Bookmarks";
-import LibraryAddCheckIcon from "@material-ui/icons/LibraryAddCheck";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
+import EqualizerIcon from '@material-ui/icons/Equalizer';
 
 const axios = require("axios");
 
@@ -47,6 +47,7 @@ function App() {
   const classes = useStyles();
   const [serviceGrade, setServiceGrade] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [selectedService, setSelectedService] = useState("");
 
   const loadServices = () => {
     const url = "http://localhost:8080/service";
@@ -89,9 +90,9 @@ function App() {
             <List>
               <ListItem button component="a" href="/" key="checklist">
                 <ListItemIcon>
-                  <LibraryAddCheckIcon />
+                  <EqualizerIcon />
                 </ListItemIcon>
-                <ListItemText primary="Checklist" />
+                <ListItemText primary="Sumário" />
               </ListItem>
 
               <ListItem button onClick={handleClickOpen} key="create-service">
@@ -109,6 +110,7 @@ function App() {
                   component="a"
                   href={"/service/" + service}
                   key={service}
+                  selected={service == selectedService}
                 >
                   <ListItemIcon>
                     <BookmarksIcon />
@@ -121,7 +123,7 @@ function App() {
 
           <Switch>
             <Route path="/service/:serviceName">
-              <Grade />
+              <Grade setSelectedService={setSelectedService} />
             </Route>
             <Route path="/">
               <Checklist />
