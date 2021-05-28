@@ -46,7 +46,7 @@ function GradeDetail(props) {
   }
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h2" component="h2">
           {name}
@@ -56,7 +56,7 @@ function GradeDetail(props) {
         </Typography>
       </Grid>
       {data.themesInfo.map((theme) => (
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Typography variant="h4" component="h2">
             {theme.name}
           </Typography>

@@ -1,5 +1,6 @@
 const axios = require("axios");
 const baseUrl = "http://localhost:8080/";
+const checklistName = "checklist-v2"
 
 export const addTopic = (serviceName, topicId) => {
   const url = `${baseUrl}service/${serviceName}/${topicId}`;
@@ -19,14 +20,14 @@ export const removeRequirement = (serviceName, topicId, requirementId) => {
   return axios.delete(url).catch((error) => console.log(error));
 };
 
-export const getGrade = (serviceName, checklist) => {
-  const url = `${baseUrl}grade/${checklist}/${serviceName}`;
+export const getGrade = (serviceName) => {
+  const url = `${baseUrl}grade/${checklistName}/${serviceName}`;
 
   return axios.get(url).catch((error) => console.log(error));
 };
 
-export const getAllGrades = (checklist) => {
-  const url = `${baseUrl}grade/${checklist}/all`;
+export const getAllGrades = () => {
+  const url = `${baseUrl}grade/${checklistName}/all`;
 
   return axios.get(url).catch((error) => console.log(error));
 };

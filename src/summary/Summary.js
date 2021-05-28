@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
   grid: {
-    width: 1600,
+    width: 1850,
   },
   theme: {
     marginBottom: 10,
@@ -35,7 +35,7 @@ function Summary(props) {
   const [serviceInfoList, setServiceInfoList] = useState([]);
 
   const loadServices = () =>
-    getAllGrades("checklist").then((values) => {
+    getAllGrades().then((values) => {
       const data = values.data;
       data.sort((a, b) => b.grade - a.grade);
       setServiceInfoList(data);

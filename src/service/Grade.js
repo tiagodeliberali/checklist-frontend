@@ -7,7 +7,7 @@ import { getGrade } from "../api/ChecklistService";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    width: 1500,
+    width: 1780,
     paddingTop: 30,
     paddingBottom: 50,
     paddingLeft: 30,
@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handleGetGrade = (service, checklist, setServiceGrade) => {
-  getGrade(service, checklist).then((response) =>
+const handleGetGrade = (service, setServiceGrade) => {
+  getGrade(service).then((response) =>
     setServiceGrade(response.data)
   );
 };
@@ -34,7 +34,7 @@ function Grade(props) {
   setSelectedService(serviceName);
 
   const reload = () => {
-    handleGetGrade(serviceName, "checklist", setServiceGrade);
+    handleGetGrade(serviceName, setServiceGrade);
   };
 
   useEffect(() => {

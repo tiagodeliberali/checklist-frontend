@@ -4,12 +4,9 @@ import "./App.css";
 import Summary from "./summary/Summary";
 import Grade from "./service/Grade";
 import AddService from "./service/AddService";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
+import Fab from "@material-ui/core/Fab";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
@@ -17,6 +14,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
+import MenuIcon from "@material-ui/icons/Menu";
 import AddIcon from "@material-ui/icons/Add";
 
 const axios = require("axios");
@@ -45,11 +43,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
   },
+  menuButton: {
+    position: "fixed",
+    top: 25,
+    right: 25,
+  }
 }));
 
 function App() {
   const classes = useStyles();
   const [serviceList, setServiceList] = useState([]);
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [selectedService, setSelectedService] = useState("");
 
@@ -79,17 +83,32 @@ function App() {
     setOpen(false);
   };
 
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setOpenDrawer(open);
+  };
+
   return (
     <Router>
       <div className="App">
         <header className="App-header">
+          <Fab className={classes.menuButton} aria-label="menu" onClick={toggleDrawer(true)}>
+            <MenuIcon />
+          </Fab>
           <Drawer
             className={classes.drawer}
-            variant="permanent"
+            open={openDrawer}
+            onClose={toggleDrawer(false)}
+            anchor="left"
             classes={{
               paper: classes.drawerPaper,
             }}
-            anchor="left"
           >
             <List>
               <ListItem button component="a" href="/" key="checklist">
