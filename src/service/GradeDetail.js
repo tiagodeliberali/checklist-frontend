@@ -12,6 +12,7 @@ import {
   addRequirement,
   removeRequirement,
 } from "../api/ChecklistService";
+import { formatGrade } from "./Formater";
 
 const useStyles = makeStyles((theme) => ({
   searchGrid: {
@@ -21,15 +22,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
     marginBottom: 30,
   },
+  missingTopicCard: {
+    marginTop: 10,
+    marginBottom: 30,
+    backgroundColor: '#f7e9e9'
+  },
   requirementText: {
     marginTop: 25,
     marginBottom: 10,
   },
 }));
-
-const formatGrade = (grade) => {
-  return Math.round((grade + Number.EPSILON) * 10 * 100) / 100;
-};
 
 function GradeDetail(props) {
   const classes = useStyles();
@@ -83,7 +85,7 @@ function TopicInfo(props) {
   };
 
   return (
-    <Card className={classes.topicCard}>
+    <Card className={topic.missing ? classes.missingTopicCard : classes.topicCard}>
       <CardContent>
         <Typography variant="h5" component="h2">
           {topic.name}

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
-import Checklist from "./checklist/Checklist";
+import Summary from "./summary/Summary";
 import Grade from "./service/Grade";
 import AddService from "./service/AddService";
-import { BrowserRouter as Router, Switch, Route, useParams } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -12,8 +17,8 @@ import Divider from "@material-ui/core/Divider";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import BookmarksIcon from "@material-ui/icons/Bookmarks";
-import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
-import EqualizerIcon from '@material-ui/icons/Equalizer';
+import EqualizerIcon from "@material-ui/icons/Equalizer";
+import AddIcon from "@material-ui/icons/Add";
 
 const axios = require("axios");
 
@@ -45,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const [serviceGrade, setServiceGrade] = useState([]);
+  const [serviceList, setServiceList] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [selectedService, setSelectedService] = useState("");
 
@@ -56,7 +61,7 @@ function App() {
       .get(url)
       .then(function (response) {
         console.log(response);
-        setServiceGrade(response.data);
+        setServiceList(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -97,14 +102,14 @@ function App() {
 
               <ListItem button onClick={handleClickOpen} key="create-service">
                 <ListItemIcon>
-                  <LibraryAddIcon />
+                  <AddIcon />
                 </ListItemIcon>
                 <ListItemText primary="Criar serviço" />
               </ListItem>
 
               <Divider />
 
-              {serviceGrade.map((service) => (
+              {serviceList.map((service) => (
                 <ListItem
                   button
                   component="a"
@@ -126,7 +131,7 @@ function App() {
               <Grade setSelectedService={setSelectedService} />
             </Route>
             <Route path="/">
-              <Checklist />
+              <Summary serviceList={serviceList} />
             </Route>
           </Switch>
         </header>

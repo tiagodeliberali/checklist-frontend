@@ -25,6 +25,12 @@ export const getGrade = (serviceName, checklist) => {
   return axios.get(url).catch((error) => console.log(error));
 };
 
+export const getAllGrades = (checklist) => {
+  const url = `${baseUrl}grade/${checklist}/all`;
+
+  return axios.get(url).catch((error) => console.log(error));
+};
+
 export const createService = (repo) => {
   const url = `${baseUrl}service/${repo}`;
 
