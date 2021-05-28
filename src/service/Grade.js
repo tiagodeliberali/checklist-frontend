@@ -7,7 +7,7 @@ import { getGrade } from "../api/ChecklistService";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    width: 1780,
+    width: 1785,
     paddingTop: 30,
     paddingBottom: 50,
     paddingLeft: 30,

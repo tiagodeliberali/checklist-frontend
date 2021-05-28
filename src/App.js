@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     position: "fixed",
     top: 25,
-    right: 25,
+    right: 35,
   }
 }));
 

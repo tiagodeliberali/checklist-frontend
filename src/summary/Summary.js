@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 10,
   },
   grid: {
-    width: 1850,
+    width: 1870,
   },
   theme: {
     marginBottom: 10,
