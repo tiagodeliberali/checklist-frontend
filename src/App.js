@@ -83,7 +83,7 @@ function App() {
     setOpen(false);
   };
 
-  const toggleDrawer = (open) => (event) => {
+  const toggleDrawer = (isOpen) => (event) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -91,7 +91,7 @@ function App() {
       return;
     }
 
-    setOpenDrawer(open);
+    setOpenDrawer(isOpen);
   };
 
   return (
