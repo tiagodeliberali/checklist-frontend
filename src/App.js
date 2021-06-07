@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import Summary from "./summary/Summary";
+import IssueSummary from "./summary/IssueSummary";
 import Grade from "./service/Grade";
 import AddService from "./service/AddService";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -16,6 +17,7 @@ import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import MenuIcon from "@material-ui/icons/Menu";
 import AddIcon from "@material-ui/icons/Add";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 
 const axios = require("axios");
 
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     top: 25,
     right: 35,
-  }
+  },
 }));
 
 function App() {
@@ -98,7 +100,11 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header">
-          <Fab className={classes.menuButton} aria-label="menu" onClick={toggleDrawer(true)}>
+          <Fab
+            className={classes.menuButton}
+            aria-label="menu"
+            onClick={toggleDrawer(true)}
+          >
             <MenuIcon />
           </Fab>
           <Drawer
@@ -111,11 +117,28 @@ function App() {
             }}
           >
             <List>
-              <ListItem button component="a" href="/" key="checklist">
+              <ListItem
+                button
+                component="a"
+                href="/"
+                key="checklist"
+              >
                 <ListItemIcon>
                   <EqualizerIcon />
                 </ListItemIcon>
                 <ListItemText primary="Sumário" />
+              </ListItem>
+
+              <ListItem
+                button
+                component="a"
+                href="/issues"
+                key="issues"
+              >
+                <ListItemIcon>
+                  <ErrorOutlineIcon />
+                </ListItemIcon>
+                <ListItemText primary="Problemas" />
               </ListItem>
 
               <ListItem button onClick={handleClickOpen} key="create-service">
@@ -133,7 +156,7 @@ function App() {
                   component="a"
                   href={"/service/" + service}
                   key={service}
-                  selected={service == selectedService}
+                  selected={service === selectedService}
                 >
                   <ListItemIcon>
                     <BookmarksIcon />
@@ -147,6 +170,9 @@ function App() {
           <Switch>
             <Route path="/service/:serviceName">
               <Grade setSelectedService={setSelectedService} />
+            </Route>
+            <Route path="/issues">
+              <IssueSummary />
             </Route>
             <Route path="/">
               <Summary serviceList={serviceList} />

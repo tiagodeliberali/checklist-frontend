@@ -45,7 +45,7 @@ function Summary(props) {
     loadServices();
   }, []);
 
-  if (serviceInfoList.length == 0) return <h2>loading...</h2>;
+  if (serviceInfoList.length === 0) return <h2>loading...</h2>;
 
   return (
     <Grid container className={classes.grid} spacing={3}>

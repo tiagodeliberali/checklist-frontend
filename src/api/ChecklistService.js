@@ -32,6 +32,18 @@ export const getAllGrades = () => {
   return axios.get(url).catch((error) => console.log(error));
 };
 
+export const getIndexedIssues = () => {
+  const url = `${baseUrl}index/`;
+
+  return axios.get(url).catch((error) => console.log(error));
+};
+
+export const getChecklist = () => {
+  const url = `${baseUrl}checklist/${checklistName}`;
+
+  return axios.get(url).catch((error) => console.log(error));
+};
+
 export const createService = (repo) => {
   const url = `${baseUrl}service/${repo}`;
 
